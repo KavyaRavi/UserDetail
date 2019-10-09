@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './Header';
 import './App.css';
 import GetAmount from '../components/GetAmount';
-import GetNoteCount from '../containers/GetNoteCount';
+import GetNoteList from '../components/GetNoteList';
 
 class App extends React.Component {
 
@@ -17,20 +17,31 @@ class App extends React.Component {
         hundred: 0,
         twoHundred: 0,
         fiveHundred: 0,
-        twoK: 0
+        twoK: 0,
+        totalCount: 0
     };
 
     onGetMoney = (amount) => {
         this.setState({
-            inputAmount: amount
+            inputAmount: amount,
+            one: 0,
+            two: 0,
+            five: 0,
+            ten: 0,
+            twenty: 0,
+            fifty: 0,
+            hundred: 0,
+            twoHundred: 0,
+            fiveHundred: 0,
+            twoK: 0,
+            totalCount: 0
         });
-        setTimeout(() => {
-            this.calculateAmount();
-        }, 1000);
     }
 
     calculateAmount = () => {
+        debugger;
         let amount = this.state.inputAmount;
+
         while(amount > 0) {
             if (amount >= 2000) {
                 this.setState({twoK: Math.floor(amount/2000)});
@@ -64,8 +75,12 @@ class App extends React.Component {
                 amount %= 1;
             }
         }
-        setTimeout(() => {
-            console.log(this.state);
+        setTimeout(()=>{
+            let totalAmount = this.state.one + this.state.two + this.state.five + this.state.ten + this.state.twenty
+                + this.state.fifty + this.state.hundred + this.state.twoHundred + this.state.fiveHundred + this.state.twoK;
+            this.setState({
+                totalCount: totalAmount
+            });
         }, 1000);
     }
 
@@ -77,10 +92,10 @@ class App extends React.Component {
                 </div>
                 <div className="row body">
                     <div className="col-md-6">
-                        <GetAmount onGetMoney={this.onGetMoney} />
+                        <GetAmount onGetMoney={this.onGetMoney} calculateAmount={this.calculateAmount} />
                     </div>
                     <div className="col-md-6">
-                        <GetNoteCount />
+                        <GetNoteList amounts={this.state} />
                     </div>
                 </div>
             </div>

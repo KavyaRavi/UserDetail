@@ -1,7 +1,7 @@
 import React from 'react';
 import './GetAmount.css';
 
-const GetAmount = ({onGetMoney}) => {
+const GetAmount = ({onGetMoney, calculateAmount}) => {
 
     return (
         <div className="getAmountBody">
@@ -13,13 +13,18 @@ const GetAmount = ({onGetMoney}) => {
                         <input type="text"
                                 className="form-control"
                                 id="amount"
+                                onBlur={() => {
+                                    var amt = document.getElementById("amount").value;
+                                    onGetMoney(amt);
+                                }}
                         />
                     </div>
-                    <button className="btn d-block" onClick={(e) => {
-                        e.preventDefault();
-                        var amt = document.getElementById("amount").value;
-                        onGetMoney(amt);
-                    }}>Get Money</button>
+                    <button className="btn d-block"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            calculateAmount();
+                        }}
+                    >Get Money</button>
                 </form>
             </div>
         </div>
